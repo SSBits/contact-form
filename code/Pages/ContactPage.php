@@ -1,0 +1,48 @@
+<?php
+/**
+* 
+*  Generic Contact Page
+* 
+*  Full Tutorial on SSbits.com
+* 
+*  @package contactform
+* 
+*/
+
+class ContactPage extends Page
+{
+	static $db = array(
+		'SendEmailsFrom' => 'Varchar(255)',
+		'SendFormSubmissionsTo' => 'Varchar(255)',
+		'OnSubmissionContent' => 'HTMLText'
+	);
+	
+	public function getCMSFields()
+	{
+		$fields = parent::getCMSFields();
+
+		$fields->addFieldToTab('Root.OnSubmission', new TextField('SendEmailsFrom', "Send emails from this address e.g. 'noreply@mysite.com'"));			
+		$fields->addFieldToTab('Root.OnSubmission', new TextField('SendFormSubmissionsTo', "Send form submissions to these addresses (comma separated)"));			
+		$fields->addFieldToTab('Root.OnSubmission', new HTMLEditorField('OnSubmissionContent', "Content to show after successfull submission"));			
+
+		return $fields;
+	}	
+}
+
+class ContactPage_Controller extends Page_Controller
+{
+	//Required to allow the form action to complete
+	static $allowed_actions = array(
+		'ContactForm'		
+	);
+	
+	//Returns our custom ContactForm
+	public function ContactForm() {
+	    return new ContactForm($this, 'ContactForm');
+	}
+
+	//Allows us to test if the form has been submitted successfully
+	public function Success(){
+		return isset($_REQUEST['success']) && $_REQUEST['success'] == "1";
+	}
+}
