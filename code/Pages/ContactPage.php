@@ -11,7 +11,9 @@
 
 class ContactPage extends Page
 {
-	static $db = array(
+	private static $description = 'A page with a simple configurable Contact Form';	
+	
+	private static $db = array(
 		'SendEmailsFrom' => 'Varchar(255)',
 		'SendFormSubmissionsTo' => 'Varchar(255)',
 		'OnSubmissionContent' => 'HTMLText'
@@ -43,6 +45,6 @@ class ContactPage_Controller extends Page_Controller
 
 	//Allows us to test if the form has been submitted successfully
 	public function Success(){
-		return isset($_REQUEST['success']) && $_REQUEST['success'] == "1";
+		return $this->request->getVar('success');
 	}
 }
