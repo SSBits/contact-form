@@ -4,10 +4,10 @@
     </head>
     <body>
     
-        <p><strong>The following query was submitted to your site by $Name ($Email).</strong></p>
-
+        <p><strong>$Name ($Email) wants to get involved! Get in touch with them:</strong></p>
+        
+        <p><strong>Telephone:</strong> $Telephone<br />
         <strong>Email:</strong> $Email<br /></p>
-        <p style="text-style: italic;">$Comments</p>
     
         <p><strong>You can reply to this email directly</strong></p>
     </body>

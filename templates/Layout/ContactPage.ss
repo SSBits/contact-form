@@ -8,7 +8,7 @@
            $OnSubmissionContent
         <% else %>  
         
-           $ContactForm
+           $Form
            
            <div class="contactResponse">
                $OnSubmissionContent

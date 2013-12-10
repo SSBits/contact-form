@@ -34,13 +34,13 @@ class ContactPage extends Page
 class ContactPage_Controller extends Page_Controller
 {
 	//Required to allow the form action to complete
-	static $allowed_actions = array(
-		'ContactForm'		
+	private static $allowed_actions = array(
+		'Form'		
 	);
 	
 	//Returns our custom ContactForm
-	public function ContactForm() {
-	    return new ContactForm($this, 'ContactForm');
+	public function Form() {
+	    return new ContactForm($this, 'Form');
 	}
 
 	//Allows us to test if the form has been submitted successfully
