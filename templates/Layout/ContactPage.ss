@@ -3,12 +3,19 @@
 	<article>
 		<h1>$Title</h1>
 		<div class="content">$Content</div>
+		
+        <% if Success %>
+           $OnSubmissionContent
+        <% else %>  
+        
+           $ContactForm
+           
+           <div class="contactResponse">
+               $OnSubmissionContent
+           </div>
+           
+        <% end_if %>
+		
 	</article>
-	
-	<% if Success %>
-	   $OnSubmissionContent
-	<% else %>	
-	   $ContactForm
-    <% end_if %>
-    
+
 </div>
