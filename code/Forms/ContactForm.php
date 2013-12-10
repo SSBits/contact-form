@@ -11,10 +11,10 @@
 */
 class ContactForm extends Form 
 {
-	static $email_subject = "Website - General enquiry";
-	static $email_template = "ContactEmail";
+	private static $email_subject = "Website - General enquiry";
+	private static $email_template = "ContactEmail";
 	
-	protected $ajax_submit = true;
+	static $ajax_submit = true;
 	
     function __construct($controller, $name) 
 	{
@@ -69,31 +69,38 @@ class ContactForm extends Form
    	function getJS()
 	{
 		//Add your custom Javascript here
-		if($this->ajax_submit)
+		if($this->stat("ajax_submit"))
 		{
 			//Construct the ID of the form
-			$formName = $this->Name . "_" . get_class($this);			
+			$formName = get_class($this) . "_" . $this->Name;			
 			
 			//For Ajax
 			Requirements::javascript("framework/thirdparty/jquery/jquery.js");
 			Requirements::javascript("framework/thirdparty/jquery-form/jquery.form.js");
 			Requirements::customScript('
-				
-				//Support Form AJAX Submit
-			    var options = {
-			        success: showResponse // post-submit callback
-			    }; 
-
-				function showResponse()
+			
+				jQuery(document).ready(function() 
 				{
-					jQuery("#' . $formName . '").fadeOut(function()
+					//Hide the Submission text. You can do this in your CSS if you prefer
+					jQuery("#contactResponse").hide();
+					
+					//Support Form AJAX Submit
+				    var options = {
+				        success: showResponse // post-submit callback
+				    }; 
+	
+					//Hide the form and show the response
+					function showResponse()
 					{
-						jQuery("#contactResponse").fadeIn();
-					});
-				}
-				
-			    jQuery("#' . $formName . '").ajaxForm(options); 	
-			');					
+						jQuery("#' . $formName . '").fadeOut(function()
+						{
+							jQuery("#contactResponse").fadeIn();
+						});
+					}
+					
+				    jQuery("#' . $formName . '").ajaxForm(options); 	
+				});
+			');
 		}
 	}
 	
@@ -119,6 +126,12 @@ class ContactForm extends Form
 		$email->setTemplate($this->stat('email_template'));
 		//populate template
 		$email->populateTemplate($data);
+		
+		//Run any extra stuff
+		if($this->hasMethod("onAfterSubmission"))
+		{
+			$this->onAfterSubmission($data, $form);
+		}		
       
 		//send mail
 		if($email->send())
