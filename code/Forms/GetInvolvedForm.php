@@ -4,8 +4,6 @@ class GetInvolvedForm extends ContactForm
 {
 	static $email_subject = "Website - Get Involved Submission";
 	static $email_template = "GetInvolvedEmail";
-
-	static $ajax_submit = true;
 	
 	function getFormFields()
 	{

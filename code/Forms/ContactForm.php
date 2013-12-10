@@ -14,7 +14,7 @@ class ContactForm extends Form
 	private static $email_subject = "Website - General enquiry";
 	private static $email_template = "ContactEmail";
 	
-	static $ajax_submit = false;
+	static $ajax_submit = true;
 	
     function __construct($controller, $name) 
 	{
@@ -79,21 +79,27 @@ class ContactForm extends Form
 			Requirements::javascript("framework/thirdparty/jquery-form/jquery.form.js");
 			Requirements::customScript('
 				
-				//Support Form AJAX Submit
-			    var options = {
-			        success: showResponse // post-submit callback
-			    }; 
-
-				//Hide the form and show the response
-				function showResponse()
+				jQuery(document).ready(function() 
 				{
-					jQuery("#' . $formName . '").fadeOut(function()
+					//Hide the Submission text. You can do this in your CSS if you prefer
+					jQuery("#contactResponse").hide();
+					
+					//Support Form AJAX Submit
+				    var options = {
+				        success: showResponse // post-submit callback
+				    }; 
+	
+					//Hide the form and show the response
+					function showResponse()
 					{
-						jQuery("#contactResponse").fadeIn();
-					});
-				}
-				
-			    jQuery("#' . $formName . '").ajaxForm(options); 	
+						jQuery("#' . $formName . '").fadeOut(function()
+						{
+							jQuery("#contactResponse").fadeIn();
+						});
+					}
+					
+				    jQuery("#' . $formName . '").ajaxForm(options); 	
+				});
 			');					
 		}
 	}
